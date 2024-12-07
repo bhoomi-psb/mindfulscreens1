@@ -8,15 +8,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>To-Do App</title>
+    <title>Explore</title>
     <style>
-        table, th, td {
-            border: solid 1px black;
-            padding: 8px;
-            text-align: center;
+        /* Styles for the card layout */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);  /* 4 cards per row */
+            gap: 20px;
+            padding: 20px;
         }
-        th {
-            background-color: #f4f4f4;
+
+        .card {
+            border: solid 1px #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: white;
+        }
+
+        .card h4 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .card button, .card a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .card button:hover, .card a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Filter form styling */
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -57,48 +104,27 @@
         <button type="submit">Filter</button>
     </form>
 
-    <!-- Data Table -->
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>UserBehaviorClass</th>
-                <th>mobile_id</th>
-                <th>Device Model</th>
-                <th>Operating System</th>
-                <th>App Usage Time</th>
-                <th>Battery Drain</th>
-                <th>ScreenOnTime_hours_per_day</th>
-                <th>Number of Apps Installed</th>
-                <th>DataUsage_MB_per_day</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for data in content2 %}
-            <tr>
-                <td>{{ data.user.id }}</td>
-                <td>{{ data.user.age }}</td>
-                <td>{{ data.user.gender }}</td>
-                <td>{{ data.user.UserBehaviorClass }}</td>
-                <td>{{ data.mobile_id }}</td>
-                <td>{{ data.DeviceModel }}</td>
-                <td>{{ data.OperatingSystem }}</td>
-                <td>{{ data.AppusageTime }}</td>
-                <td>{{ data.BatteryDrain }}</td>
-                <td>{{ data.ScreenOnTime_hours_per_day }}</td>
-                <td>{{ data.NumberofAppsInstalled }}</td>
-                <td>{{ data.DataUsage_MB_per_day }}</td>
-                <td>
-                    <button onclick="confirmDelete({{ data.user.id }})" style="display: inline-block; padding: 10px; border: none; border-radius: 5px; background-color: #007BFF; color: white; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; transition: background-color 0.3s ease;">Delete</button>
-                    <a href="/update/{{ data.user.id }}" style="padding: 10px; border: none; border-radius: 5px; background-color: #007BFF; color: white; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; transition: background-color 0.3s ease;">Update</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <!-- Cards Container -->
+    <div class="card-container">
+        {% for data in content2 %}
+        <div class="card">
+            <h4>User ID: {{ data.user.id }}</h4>
+            <p><strong>Age:</strong> {{ data.user.age }}</p>
+            <p><strong>Gender:</strong> {{ data.user.gender }}</p>
+            <p><strong>User Behavior Class:</strong> {{ data.user.UserBehaviorClass }}</p>
+            <p><strong>Device Model:</strong> {{ data.DeviceModel }}</p>
+            <p><strong>Operating System:</strong> {{ data.OperatingSystem }}</p>
+            <p><strong>App Usage Time:</strong> {{ data.AppusageTime }} hrs</p>
+            <p><strong>Battery Drain:</strong> {{ data.BatteryDrain }}%</p>
+            <p><strong>Screen On Time:</strong> {{ data.ScreenOnTime_hours_per_day }} hrs/day</p>
+            <p><strong>Apps Installed:</strong> {{ data.NumberofAppsInstalled }}</p>
+            <p><strong>Data Usage:</strong> {{ data.DataUsage_MB_per_day }} MB/day</p>
+
+            <button onclick="confirmDelete({{ data.user.id }})">Delete</button>
+            <a href="/update/{{ data.user.id }}">Update</a>
+        </div>
+        {% endfor %}
+    </div>
 
     <script>
         function confirmDelete(userId) {
