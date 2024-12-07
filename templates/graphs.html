@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}Graphs{% endblock %}
+{% block body_class %}Graphs-page{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Insights</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            color: black; /* Set all text to black */
+        }
+        h1 {
+            text-align: center;
+            color: white; /* Set title color to black */
+        }
+        h2 {
+            color: black; /* Set subtitle color to black */
+            margin-top: 20px;
+        }
+        /* Container to hold the charts */
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            gap: 20px;
+            padding: 10px;
+        }
+        /* Adding white padding for each graph */
+        .chart-container div {
+            padding: 10px;
+            background-color: #ffffff;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 250px !important; /* Reduced height for smaller size */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>A Deep Dive into Data Trends</h1>
+    <div class="chart-container">
+        <!-- Gender Distribution - Bar Chart -->
+        <div>
+            <h2>Gender Distribution</h2>
+            <canvas id="genderChart"></canvas>
+        </div>
+
+        <!-- Age Groups - Pie Chart -->
+        <div>
+            <h2>Age Groups</h2>
+            <canvas id="ageChart"></canvas>
+        </div>
+
+        <!-- App Usage by Category - Horizontal Bar Chart -->
+        <div>
+            <h2>App Usage by Category</h2>
+            <canvas id="categoryChart"></canvas>
+        </div>
+
+        <!-- Operating System Distribution - Doughnut Chart -->
+        <div>
+            <h2>Operating System Distribution</h2>
+            <canvas id="osChart"></canvas>
+        </div>
+
+        <!-- Social Media Apps Usage - Bar Chart -->
+        <div>
+            <h2>Social Media Apps Usage</h2>
+            <canvas id="socialMediaChart"></canvas>
+        </div>
+
+        <!-- Device Usage - Radar Chart -->
+        <div>
+            <h2>Device Usage</h2>
+            <canvas id="deviceChart"></canvas>
+        </div>
+
+        <!-- App Downloads - Polar Area Chart -->
+        <div>
+            <h2>App Downloads</h2>
+            <canvas id="downloadsChart"></canvas>
+        </div>
+
+        <!-- User Activity - Pie Chart -->
+        <div>
+            <h2>User Activity</h2>
+            <canvas id="activityChart"></canvas>
+        </div>
+
+        <!-- Monthly Spending - Doughnut Chart -->
+        <div>
+            <h2>Monthly Spending</h2>
+            <canvas id="spendingChart"></canvas>
+        </div>
+
+        <!-- Education Usage - Bar Chart -->
+        <div>
+            <h2>Education Usage</h2>
+            <canvas id="educationChart"></canvas>
+        </div>
+
+        <!-- Product Satisfaction - Line Chart -->
+        <div>
+            <h2>Product Satisfaction</h2>
+            <canvas id="satisfactionChart"></canvas>
+        </div>
+
+        <!-- Device Models - Bar Chart -->
+        <div>
+            <h2>Device Models</h2>
+            <canvas id="modelsChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const graphData = {
+            "gender_distribution": {"Male": 55, "Female": 45},
+            "age_groups": {"18-24": 35, "25-34": 40, "35-44": 15, "45+": 10},
+            "app_usage_categories": {
+                "Social Media": 35, "Shopping": 20, "Education": 10, "Movies": 15, "Gaming": 10, "Other": 10
+            },
+            "os_distribution": {"iOS": 40, "Android": 60},
+            "social_media_usage": {
+                "Facebook": 30, "Instagram": 25, "Twitter": 15, "TikTok": 20, "LinkedIn": 10
+            },
+            "device_usage": {"Smartphones": 70, "Tablets": 15, "Desktops": 15},
+            "app_downloads": {
+                "TikTok": 500000, "Instagram": 400000, "Facebook": 300000, "YouTube": 200000, "WhatsApp": 150000
+            },
+            "user_activity": {"Active": 80, "Inactive": 20},
+            "monthly_spending": {
+                "Entertainment": 25, "Shopping": 40, "Education": 15, "Gaming": 10, "Other": 10
+            },
+            "education_usage": {
+                "Educational Apps": 50, "Online Learning Platforms": 30, "Other": 20
+            },
+            "product_satisfaction": {
+                "Very Satisfied": 40, "Satisfied": 35, "Neutral": 15, "Dissatisfied": 5, "Very Dissatisfied": 5
+            },
+            "device_models": {
+                "iPhone 14": 40, "Samsung Galaxy S22": 30, "Google Pixel 7": 15, "OnePlus 9": 10, "Other": 5
+            }
+        };
+
+        // Gender Distribution (Bar Chart)
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        new Chart(genderCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(graphData.gender_distribution),
+                datasets: [{
+                    label: 'Gender Distribution',
+                    data: Object.values(graphData.gender_distribution),
+                    backgroundColor: ['#FF5733', '#33FF57'],
+                    borderColor: ['#C70039', '#28A745'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Age Groups (Pie Chart)
+        const ageCtx = document.getElementById('ageChart').getContext('2d');
+        new Chart(ageCtx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(graphData.age_groups),
+                datasets: [{
+                    data: Object.values(graphData.age_groups),
+                    backgroundColor: ['#4E73DF', '#1CC88A', '#36B9CC', '#FF9F43'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // App Usage by Category (Horizontal Bar Chart)
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(graphData.app_usage_categories),
+                datasets: [{
+                    label: 'App Usage by Category',
+                    data: Object.values(graphData.app_usage_categories),
+                    backgroundColor: ['#FF9999', '#66B3FF', '#99FF99', '#FFCC99', '#B2B2FF', '#FF66B2'],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y'
+            }
+        });
+
+        // OS Distribution (Doughnut Chart)
+        const osCtx = document.getElementById('osChart').getContext('2d');
+        new Chart(osCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(graphData.os_distribution),
+                datasets: [{
+                    data: Object.values(graphData.os_distribution),
+                    backgroundColor: ['#F39C12', '#8E44AD'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Social Media Apps Usage (Bar Chart)
+        const socialMediaCtx = document.getElementById('socialMediaChart').getContext('2d');
+        new Chart(socialMediaCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(graphData.social_media_usage),
+                datasets: [{
+                    label: 'Social Media Usage',
+                    data: Object.values(graphData.social_media_usage),
+                    backgroundColor: ['#1DA1F2', '#E1306C', '#00B5E2', '#FF5733', '#0077B5'],
+                    borderColor: ['#1DA1F2', '#E1306C', '#00B5E2', '#FF5733', '#0077B5'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Device Usage (Radar Chart)
+        const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+        new Chart(deviceCtx, {
+            type: 'radar',
+            data: {
+                labels: Object.keys(graphData.device_usage),
+                datasets: [{
+                    label: 'Device Usage',
+                    data: Object.values(graphData.device_usage),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: '#36A2EB',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // App Downloads (Polar Area Chart)
+        const downloadsCtx = document.getElementById('downloadsChart').getContext('2d');
+        new Chart(downloadsCtx, {
+            type: 'polarArea',
+            data: {
+                labels: Object.keys(graphData.app_downloads),
+                datasets: [{
+                    data: Object.values(graphData.app_downloads),
+                    backgroundColor: ['#FF9999', '#66B3FF', '#99FF99', '#FFCC99', '#FF6666'],
+                    borderColor: '#FFFFFF',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // User Activity (Pie Chart)
+        const activityCtx = document.getElementById('activityChart').getContext('2d');
+        new Chart(activityCtx, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(graphData.user_activity),
+                datasets: [{
+                    data: Object.values(graphData.user_activity),
+                    backgroundColor: ['#FFDDC1', '#6C5B7B'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Monthly Spending (Doughnut Chart)
+        const spendingCtx = document.getElementById('spendingChart').getContext('2d');
+        new Chart(spendingCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(graphData.monthly_spending),
+                datasets: [{
+                    data: Object.values(graphData.monthly_spending),
+                    backgroundColor: ['#E74C3C', '#8E44AD', '#2ECC71', '#F39C12', '#9B59B6'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Education Usage (Bar Chart)
+        const educationCtx = document.getElementById('educationChart').getContext('2d');
+        new Chart(educationCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(graphData.education_usage),
+                datasets: [{
+                    label: 'Education Usage',
+                    data: Object.values(graphData.education_usage),
+                    backgroundColor: ['#2980B9', '#27AE60', '#F1C40F'],
+                    borderColor: ['#2980B9', '#27AE60', '#F1C40F'],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Product Satisfaction (Line Chart)
+        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
+        new Chart(satisfactionCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(graphData.product_satisfaction),
+                datasets: [{
+                    label: 'Product Satisfaction',
+                    data: Object.values(graphData.product_satisfaction),
+                    backgroundColor: '#FF5733',
+                    borderColor: '#C70039',
+                    borderWidth: 2
+                }]
+            }
+        });
+
+        // Device Models (Bar Chart)
+        const modelsCtx = document.getElementById('modelsChart').getContext('2d');
+        new Chart(modelsCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(graphData.device_models),
+                datasets: [{
+                    label: 'Device Models',
+                    data: Object.values(graphData.device_models),
+                    backgroundColor: ['#F39C12', '#8E44AD', '#3498DB', '#E74C3C', '#2ECC71'],
+                    borderColor: ['#F39C12', '#8E44AD', '#3498DB', '#E74C3C', '#2ECC71'],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

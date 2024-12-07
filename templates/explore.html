@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Explore{% endblock %}
+{% block body_class %}Explore-page{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do App</title>
+    <style>
+        table, th, td {
+            border: solid 1px black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Filter Form -->
+    <form method="get">
+        <label for="age">Age Range:</label>
+        <select name="age">
+            <option value="">All</option>
+            <option value="18-24" >{% if request.args.get('age') == '18-24' %}selected{% endif %}>18-24</option>
+            <option value="25-34" >{% if request.args.get('age') == '25-34' %}selected{% endif %}>25-34</option>
+            <option value="35-44" >{% if request.args.get('age') == '35-44' %}selected{% endif %}>35-44</option>
+            <option value="45+" >{% if request.args.get('age') == '45+' %}selected{% endif %}>45+</option>
+        </select>
+
+        <label for="gender">Gender:</label>
+        <select name="gender">
+            <option value="">All</option>
+            <option value="Male" >{% if request.args.get('gender') == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female"> {% if request.args.get('gender') == 'Female' %}selected{% endif %}>Female</option>
+        </select>
+
+        <label for="os">Operating System:</label>
+        <select name="os">
+            <option value="">All</option>
+            <option value="iOS" >{% if request.args.get('os') == 'iOS' %}selected{% endif %}>iOS</option>
+            <option value="Android" >{% if request.args.get('os') == 'Android' %}selected{% endif %}>Android</option>
+        </select>
+
+        <label for="device">Device Model:</label>
+        <select name="device">
+            <option value="">All</option>
+            {% for device in devices %}
+                <option value="{{ device }}" >{% if request.args.get('device') == device %}selected{% endif %}>{{ device }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Data Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>UserBehaviorClass</th>
+                <th>mobile_id</th>
+                <th>Device Model</th>
+                <th>Operating System</th>
+                <th>App Usage Time</th>
+                <th>Battery Drain</th>
+                <th>ScreenOnTime_hours_per_day</th>
+                <th>Number of Apps Installed</th>
+                <th>DataUsage_MB_per_day</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in content2 %}
+            <tr>
+                <td>{{ data.user.id }}</td>
+                <td>{{ data.user.age }}</td>
+                <td>{{ data.user.gender }}</td>
+                <td>{{ data.user.UserBehaviorClass }}</td>
+                <td>{{ data.mobile_id }}</td>
+                <td>{{ data.DeviceModel }}</td>
+                <td>{{ data.OperatingSystem }}</td>
+                <td>{{ data.AppusageTime }}</td>
+                <td>{{ data.BatteryDrain }}</td>
+                <td>{{ data.ScreenOnTime_hours_per_day }}</td>
+                <td>{{ data.NumberofAppsInstalled }}</td>
+                <td>{{ data.DataUsage_MB_per_day }}</td>
+                <td>
+                    <button onclick="confirmDelete({{ data.user.id }})" style="display: inline-block; padding: 10px; border: none; border-radius: 5px; background-color: #007BFF; color: white; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; transition: background-color 0.3s ease;">Delete</button>
+                    <a href="/update/{{ data.user.id }}" style="padding: 10px; border: none; border-radius: 5px; background-color: #007BFF; color: white; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; transition: background-color 0.3s ease;">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function confirmDelete(userId) {
+            const confirmation = confirm("Are you sure you want to delete this user?");
+            if (confirmation) {
+                fetch(`/delete/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.message === 'User deleted successfully') {
+                        window.location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+    </script>
+</body>
+</html>
+{% endblock %}
