@@ -49,15 +49,23 @@ body {
     padding: 20px;
     position: relative;
     z-index: 2;
+    margin-top: 70px; /* Add space for the fixed navbar */
 }
 
-/* Navbar Styling with Refined Gradient */
+/* Navbar Styling with Fixed Position */
 .navbar {
-    display: flex; /* Align links side by side */
-    justify-content: space-between; /* Align items at both ends */
-    background: linear-gradient(45deg, #1B2970, #124187, #733E86, #AF519B, #F46AB8); /* Custom gradient */
-    padding: 10px; /* Padding for the navbar */
-    z-index: 10; /* Ensure navbar is on top */
+    position: fixed; /* Keep navbar at the top */
+    top: 0;
+    left: 0;
+    right: 0; /* Ensure it spans the entire width */
+    background: linear-gradient(45deg, #1B2970, #124187, #733E86, #AF519B, #F46AB8);
+    padding: 10px;
+    z-index: 10;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in the width calculation */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar .logo {
@@ -89,14 +97,16 @@ body {
 footer {
     background: linear-gradient(45deg, #1B2970, #124187, #733E86, #AF519B, #F46AB8); /* Custom gradient */
     color: white; /* Text color */
-    padding: 15px; /* Space inside the footer */
+    padding: 5px; /* Space inside the footer */
     text-align: center; /* Center align text horizontally */
     display: flex; /* Flexbox for centering */
     justify-content: center; /* Horizontal centering */
     align-items: center; /* Vertical centering */
     font-size: 15px; /* Font size for footer text */
     z-index: 10;
-    width: 100%; /* Ensure the footer spans the entire width */
+    width: 100%; /* Ensure full width */
+    box-sizing: border-box; /* Include padding in the width calculation */
+    position: relative; /* Ensure footer stays at the bottom */
 }
 
 /* Content Overlay Positioning for Centered Text */
